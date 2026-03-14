@@ -7,7 +7,6 @@ import com.mojang.blaze3d.buffers.GpuFence;
 import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.pipeline.TextureTarget;
 import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.jtracy.TracyClient;
 import javax.annotation.Nullable;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -84,7 +83,7 @@ public class TracyFrameCapture implements AutoCloseable {
 
                 try (GpuBuffer.ReadView gpubuffer$readview = this.pixelbuffer.read()) {
                     if (gpubuffer$readview != null) {
-                        TracyClient.frameImage(gpubuffer$readview.data(), this.width, this.height, this.lastCaptureDelay, true);
+                        // Tracy capture disabled in this build
                     }
                 }
             }
@@ -94,7 +93,6 @@ public class TracyFrameCapture implements AutoCloseable {
     public void endFrame() {
         this.lastCaptureDelay++;
         this.capturedThisFrame = false;
-        TracyClient.markFrame();
     }
 
     @Override

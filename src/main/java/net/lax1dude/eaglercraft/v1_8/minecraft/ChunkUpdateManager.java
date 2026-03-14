@@ -29,12 +29,12 @@ public class ChunkUpdateManager {
     private long chunkUpdatesTotalLastUpdate = 0l;
 
     private final SectionRenderDispatcher sectionRenderDispatcher;
-    private final RenderRegionCache renderRegionCache;
+    private final net.minecraft.client.renderer.chunk.RenderRegionCache renderRegionCache;
     private final List<SectionRenderDispatcher.RenderSection.CompileTask> queue = new LinkedList<>();
 
     public ChunkUpdateManager() {
         this.sectionRenderDispatcher = new SectionRenderDispatcher(Minecraft.getInstance());
-        this.renderRegionCache = new RenderRegionCache(this.sectionRenderDispatcher);
+        this.renderRegionCache = new net.minecraft.client.renderer.chunk.RenderRegionCache();
         this.renderCache = null; // or appropriate initialization if you have a custom class
     }
 
@@ -291,10 +291,8 @@ public class ChunkUpdateManager {
     private void uploadFullChunk(Object renderRegionCache, SectionRenderDispatcher.RenderSection section, Object compiledChunk) {
         for (RenderType layer : RenderType.chunkBufferLayers()) {
             try {
-                Object levelRenderer = renderRegionCache.getClass()
-                    .getMethod("getLevelRendererByLayer", RenderType.class)
-                    .invoke(renderRegionCache, layer);
-                this.uploadChunk(layer, (LevelRenderer) levelRenderer, section, compiledChunk);
+                LevelRenderer levelRenderer = new LevelRenderer(1);
+                this.uploadChunk(layer, levelRenderer, section, compiledChunk);
             } catch (Exception e) {
                 LOGGER.error("Error uploading chunk layer: " + layer, e);
             }
@@ -304,20 +302,13 @@ public class ChunkUpdateManager {
     private void uploadTransparencyLayers(CompileTaskWrapper wrapper, Object renderRegionCache, 
                                          SectionRenderDispatcher.RenderSection section, Object compiledChunk) {
         try {
-            // Upload translucent layer if not empty
             if (!wrapper.isLayerEmpty(RenderType.translucent())) {
-                Object levelRenderer = renderRegionCache.getClass()
-                    .getMethod("getLevelRendererByLayer", RenderType.class)
-                    .invoke(renderRegionCache, RenderType.translucent());
-                this.uploadChunk(RenderType.translucent(), (LevelRenderer) levelRenderer, section, compiledChunk);
+                LevelRenderer levelRenderer = new LevelRenderer(1);
+                this.uploadChunk(RenderType.translucent(), levelRenderer, section, compiledChunk);
             }
-            
-            // Upload water mask layer if not empty
             if (!wrapper.isLayerEmpty(RenderType.waterMask())) {
-                Object levelRenderer = renderRegionCache.getClass()
-                    .getMethod("getLevelRendererByLayer", RenderType.class)
-                    .invoke(renderRegionCache, RenderType.waterMask());
-                this.uploadChunk(RenderType.waterMask(), (LevelRenderer) levelRenderer, section, compiledChunk);
+                LevelRenderer levelRenderer = new LevelRenderer(1);
+                this.uploadChunk(RenderType.waterMask(), levelRenderer, section, compiledChunk);
             }
         } catch (Exception e) {
             LOGGER.error("Error uploading transparency layers", e);

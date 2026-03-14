@@ -30,8 +30,8 @@ import com.mojang.blaze3d.systems.TimerQuery;
 import com.mojang.blaze3d.vertex.BufferUploader;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.datafixers.DataFixer;
-import com.mojang.jtracy.DiscontinuousFrame;
-import com.mojang.jtracy.TracyClient;
+//import com.mojang.jtracy.DiscontinuousFrame;
+//import com.mojang.jtracy.TracyClient;
 import com.mojang.logging.LogUtils;
 import com.mojang.realmsclient.client.RealmsClient;
 import com.mojang.realmsclient.gui.RealmsDataFetcher;
@@ -633,11 +633,7 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements 
         );
         this.quickPlayLog = QuickPlayLog.of(p_91084_.quickPlay.path());
         this.framerateLimitTracker = new FramerateLimitTracker(this.options, this);
-        if (TracyClient.isAvailable() && p_91084_.game.captureTracyImages) {
-            this.tracyFrameCapture = new TracyFrameCapture();
-        } else {
-            this.tracyFrameCapture = null;
-        }
+        this.tracyFrameCapture = null;
     }
 
     private void onResourceLoadFinished(@Nullable Minecraft.GameLoadCookie p_299693_) {
@@ -810,8 +806,6 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements 
             this.gameThread.setPriority(10);
         }
 
-        DiscontinuousFrame discontinuousframe = TracyClient.createDiscontinuousFrame("Client Tick");
-
         try {
             boolean flag = false;
 
@@ -824,9 +818,7 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements 
 
                     try (Profiler.Scope profiler$scope = Profiler.use(this.constructProfiler(flag1, singletickprofiler))) {
                         this.metricsRecorder.startTick();
-                        discontinuousframe.start();
                         this.runTick(!flag);
-                        discontinuousframe.end();
                         this.metricsRecorder.endTick();
                     }
 

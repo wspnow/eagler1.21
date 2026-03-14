@@ -47,8 +47,8 @@ public class SoundManager implements JSONTypeDeserializer<JSONObject, SoundManag
     public SoundManager.SoundMap deserialize(JSONObject json) throws JSONException {
         Map<ResourceLocation, SoundEvent> soundsMap = new HashMap<>();
         for(String key : json.keySet()) {
-            ResourceLocation location = new ResourceLocation(key);
-            SoundEvent event = new SoundEvent(location);
+            ResourceLocation location = ResourceLocation.parse(key);
+            SoundEvent event = SoundEvent.createVariableRangeEvent(location);
             soundsMap.put(location, event);
         }
         return new SoundManager.SoundMap(soundsMap);

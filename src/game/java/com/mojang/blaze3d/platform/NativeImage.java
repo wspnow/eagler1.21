@@ -1,8 +1,8 @@
 package com.mojang.blaze3d.platform;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.jtracy.MemoryPool;
-import com.mojang.jtracy.TracyClient;
+//import com.mojang.jtracy.MemoryPool;
+//import com.mojang.jtracy.TracyClient;
 import com.mojang.logging.LogUtils;
 import java.io.File;
 import java.io.IOException;
@@ -40,7 +40,7 @@ import org.slf4j.Logger;
 @OnlyIn(Dist.CLIENT)
 public final class NativeImage implements AutoCloseable {
     private static final Logger LOGGER = LogUtils.getLogger();
-    private static final MemoryPool MEMORY_POOL = TracyClient.createMemoryPool("NativeImage");
+    //private static final MemoryPool MEMORY_POOL = TracyClient.createMemoryPool("NativeImage");
     private static final Set<StandardOpenOption> OPEN_OPTIONS = EnumSet.of(
         StandardOpenOption.WRITE, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING
     );
@@ -68,7 +68,7 @@ public final class NativeImage implements AutoCloseable {
                 this.pixels = MemoryUtil.nmemAlloc(this.size);
             }
 
-            MEMORY_POOL.malloc(this.pixels, (int)this.size);
+            //MEMORY_POOL.malloc(this.pixels, (int)this.size);
             if (this.pixels == 0L) {
                 throw new IllegalStateException("Unable to allocate texture of size " + p_84973_ + "x" + p_84974_ + " (" + p_84972_.components() + " channels)");
             }
@@ -173,7 +173,7 @@ public final class NativeImage implements AutoCloseable {
                 }
 
                 long i = MemoryUtil.memAddress(bytebuffer);
-                MEMORY_POOL.malloc(i, bytebuffer.limit());
+                //MEMORY_POOL.malloc(i, bytebuffer.limit());
                 nativeimage = new NativeImage(
                     p_85052_ == null ? NativeImage.Format.getStbFormat(intbuffer2.get(0)) : p_85052_, intbuffer.get(0), intbuffer1.get(0), true, i
                 );
@@ -198,7 +198,7 @@ public final class NativeImage implements AutoCloseable {
                 MemoryUtil.nmemFree(this.pixels);
             }
 
-            MEMORY_POOL.free(this.pixels);
+            //MEMORY_POOL.free(this.pixels);
         }
 
         this.pixels = 0L;

@@ -17,8 +17,8 @@
 package net.lax1dude.eaglercraft.v1_8.minecraft;
 
 import java.io.IOException;
-import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.concurrent.Callable;
 import java.util.ArrayList;
@@ -133,7 +133,7 @@ public class EaglerTextureAtlasSprite {
 		this.maxU = atlasSpirit.maxU;
 		this.minV = atlasSpirit.minV;
 		this.maxV = atlasSpirit.maxV;
-		if (atlasSpirit != Minecraft.getInstance().getTextureManager().getTexture(TextureAtlas.LOCATION_BLOCKS).getMissingTexture()) {
+		if (atlasSpirit != null) {
 			this.indexInMap = atlasSpirit.indexInMap;
 		}
 	}
@@ -304,7 +304,7 @@ public class EaglerTextureAtlasSprite {
 			}
 
 			// Create animation metadata with default values
-			this.animationMetadata = new AnimationMetadataSection(frames, this.width, this.height, 1, false);
+			this.animationMetadata = new AnimationMetadataSection(Optional.of(frames), Optional.of(this.width), Optional.of(this.height), 1, false);
 		}
 
 	}

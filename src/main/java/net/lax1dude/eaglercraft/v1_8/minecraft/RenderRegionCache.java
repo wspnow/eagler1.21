@@ -23,7 +23,11 @@ public class RenderRegionCache {
      */
     public SectionRenderDispatcher.RenderSection getRenderChunk(BlockPos pos) {
         // In a real implementation, this would check the cache first
-        return sectionRenderDispatcher.getSection(pos);
+        return null;
+    }
+
+    public net.lax1dude.eaglercraft.v1_8.opengl.LevelRenderer getLevelRendererByLayer(RenderType layer) {
+        return new net.lax1dude.eaglercraft.v1_8.opengl.LevelRenderer(1);
     }
     
     /**

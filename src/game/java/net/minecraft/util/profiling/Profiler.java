@@ -1,6 +1,6 @@
 package net.minecraft.util.profiling;
 
-import com.mojang.jtracy.TracyClient;
+//import com.mojang.jtracy.TracyClient;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -48,7 +48,7 @@ public final class Profiler {
     }
 
     private static ProfilerFiller getDefaultFiller() {
-        return (ProfilerFiller)(TracyClient.isAvailable() ? TRACY_FILLER.get() : InactiveProfiler.INSTANCE);
+        return InactiveProfiler.INSTANCE;
     }
 
     public interface Scope extends AutoCloseable {

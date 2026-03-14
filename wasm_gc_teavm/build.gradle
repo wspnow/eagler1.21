@@ -8,6 +8,9 @@ plugins {
     id "org.teavm" version "0.11.0-EAGLER-R1"
 }
 
+sourceCompatibility = "17"
+targetCompatibility = "17"
+
 sourceSets {
     main {
         java {
@@ -36,6 +39,11 @@ dependencies {
 
 def folder = "javascript"
 def name = "classes.wasm"
+
+tasks.withType(JavaCompile) {
+    options.compilerArgs.add("--enable-preview")
+    options.encoding = "UTF-8"
+}
 
 teavm.wasmGC {
     compileJava.options.encoding = "UTF-8"

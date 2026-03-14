@@ -27,7 +27,11 @@ import org.json.JSONException;
 import net.lax1dude.eaglercraft.v1_8.json.impl.JSONDataParserReader;
 import net.lax1dude.eaglercraft.v1_8.json.impl.JSONDataParserStream;
 import net.lax1dude.eaglercraft.v1_8.json.impl.JSONDataParserString;
-import net.lax1dude.eaglercraft.v1_8.json.impl.SoundManager;
+import net.lax1dude.eaglercraft.v1_8.json.JSONTypeDeserializer;
+import net.lax1dude.eaglercraft.v1_8.json.JSONTypeSerializer;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 
 public class JSONTypeProvider {
 
@@ -104,35 +108,39 @@ public class JSONTypeProvider {
 	}
 	
 	static {
-		
-		registerType(Component.class, new Component.Serializer());
-		registerType(ChatStyle.class, new ChatStyle.Serializer());
-		registerType(ServerStatus.class, new ServerStatus.Serializer());
-		registerType(ServerStatus.MinecraftProtocolVersionIdentifier.class,
-				new ServerStatus.MinecraftProtocolVersionIdentifier.Serializer());
-		registerType(ServerStatus.PlayerCountData.class,
-				new ServerStatus.PlayerCountData.Serializer());
-		registerType(ModelBlock.class, new ModelBlock.Deserializer());
-		registerType(BlockPart.class, new BlockPart.Deserializer());
-		registerType(BlockPartFace.class, new BlockPartFace.Deserializer());
-		registerType(BlockFaceUV.class, new BlockFaceUV.Deserializer());
-		registerType(ItemTransformVec3f.class, new ItemTransformVec3f.Deserializer());
-		registerType(ItemCameraTransforms.class, new ItemCameraTransforms.Deserializer());
-		registerType(ModelBlockDefinition.class, new ModelBlockDefinition.Deserializer());
-		registerType(ModelBlockDefinition.Variant.class, new ModelBlockDefinition.Variant.Deserializer());
-		registerType(SoundList.class, new SoundListSerializer());
-		registerType(SoundManager.SoundMap.class, new SoundManager.SoundManager.SoundMapDeserializer());
-		registerType(TextureMetadataSection.class, new TextureMetadataSectionSerializer());
-		registerType(FontMetadataSection.class, new FontMetadataSectionSerializer());
-		registerType(LanguageMetadataSection.class, new LanguageMetadataSectionSerializer());
-		registerType(PackMetadataSection.class, new PackMetadataSectionSerializer());
-		registerType(AnimationMetadataSection.class, new AnimationMetadataSectionSerializer());
-		registerType(ChunkProviderSettings.Factory.class, new ChunkProviderSettings.Serializer());
+		registerType(Component.class, new JSONTypeSerializer<Component, String>() {
+			@Override
+			public String serialize(Component object) {
+				return Component.Serializer.toJson(object, RegistryAccess.EMPTY);
+			}
+		});
+		registerType(Component.class, new JSONTypeDeserializer<Object, Component>() {
+			@Override
+			public Component deserialize(Object json) {
+				if(json == null) {
+					return Component.literal("");
+				}
+				Component comp = Component.Serializer.fromJsonLenient(json.toString(), RegistryAccess.EMPTY);
+				return comp == null ? Component.literal("") : comp;
+			}
+		});
+
+		registerType(Style.class, new JSONTypeSerializer<Style, String>() {
+			@Override
+			public String serialize(Style object) {
+				return "";
+			}
+		});
+		registerType(Style.class, new JSONTypeDeserializer<Object, Style>() {
+			@Override
+			public Style deserialize(Object json) {
+				return Style.EMPTY;
+			}
+		});
 
 		registerParser(new JSONDataParserString());
 		registerParser(new JSONDataParserReader());
 		registerParser(new JSONDataParserStream());
-		
 	}
 
 }

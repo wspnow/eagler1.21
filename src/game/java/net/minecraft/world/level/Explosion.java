@@ -16,12 +16,16 @@ public interface Explosion {
 
     @Nullable
     static LivingEntity getIndirectSourceEntity(@Nullable Entity p_362403_) {
-        return switch (p_362403_) {
-            case PrimedTnt primedtnt -> primedtnt.getOwner();
-            case LivingEntity livingentity -> livingentity;
-            case Projectile projectile when projectile.getOwner() instanceof LivingEntity livingentity1 -> livingentity1;
-            case null, default -> null;
-        };
+        if (p_362403_ instanceof PrimedTnt primedtnt) {
+            return primedtnt.getOwner();
+        } else if (p_362403_ instanceof LivingEntity livingentity) {
+            return livingentity;
+        } else if (p_362403_ instanceof Projectile projectile) {
+            if (projectile.getOwner() instanceof LivingEntity livingentity1) {
+                return livingentity1;
+            }
+        }
+        return null;
     }
 
     ServerLevel level();

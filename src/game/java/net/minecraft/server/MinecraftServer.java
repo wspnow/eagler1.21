@@ -10,8 +10,8 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.GameProfileRepository;
 import com.mojang.authlib.minecraft.MinecraftSessionService;
 import com.mojang.datafixers.DataFixer;
-import com.mojang.jtracy.DiscontinuousFrame;
-import com.mojang.jtracy.TracyClient;
+//import com.mojang.jtracy.DiscontinuousFrame;
+//import com.mojang.jtracy.TracyClient;
 import com.mojang.logging.LogUtils;
 import it.unimi.dsi.fastutil.longs.LongIterator;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
@@ -271,7 +271,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
     private volatile boolean isSaving;
     private static final AtomicReference<RuntimeException> fatalException = new AtomicReference<>();
     private final SuppressedExceptionCollector suppressedExceptions = new SuppressedExceptionCollector();
-    private final DiscontinuousFrame tickFrame;
+    //private final DiscontinuousFrame tickFrame;
 
     public static <S extends MinecraftServer> S spin(Function<Thread, S> p_129873_) {
         AtomicReference<S> atomicreference = new AtomicReference<>();
@@ -325,7 +325,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
             this.potionBrewing = PotionBrewing.bootstrap(this.worldData.enabledFeatures());
             this.resources.managers.getRecipeManager().finalizeRecipeLoading(this.worldData.enabledFeatures());
             this.fuelValues = FuelValues.vanillaBurnTimes(this.registries.compositeAccess(), this.worldData.enabledFeatures());
-            this.tickFrame = TracyClient.createDiscontinuousFrame("Server Tick");
+            //this.tickFrame = TracyClient.createDiscontinuousFrame("Server Tick");
         }
     }
 
@@ -707,9 +707,9 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
                 try (Profiler.Scope profiler$scope = Profiler.use(this.createProfiler())) {
                     ProfilerFiller profilerfiller = Profiler.get();
                     profilerfiller.push("tick");
-                    this.tickFrame.start();
+                    //this.tickFrame.start();
                     this.tickServer(flag ? () -> false : this::haveTime);
-                    this.tickFrame.end();
+                    //this.tickFrame.end();
                     profilerfiller.popPush("nextTickWait");
                     this.mayHaveDelayedTasks = true;
                     this.delayedTasksMaxNextTickTimeNanos = Math.max(Util.getNanos() + i, this.nextTickTimeNanos);

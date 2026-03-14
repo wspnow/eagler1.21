@@ -1,7 +1,7 @@
 package com.mojang.blaze3d.vertex;
 
-import com.mojang.jtracy.MemoryPool;
-import com.mojang.jtracy.TracyClient;
+//import com.mojang.jtracy.MemoryPool;
+//import com.mojang.jtracy.TracyClient;
 import com.mojang.logging.LogUtils;
 import java.nio.ByteBuffer;
 import javax.annotation.Nullable;
@@ -13,7 +13,7 @@ import org.slf4j.Logger;
 
 @OnlyIn(Dist.CLIENT)
 public class ByteBufferBuilder implements AutoCloseable {
-    private static final MemoryPool MEMORY_POOL = TracyClient.createMemoryPool("ByteBufferBuilder");
+    //private static final MemoryPool MEMORY_POOL = TracyClient.createMemoryPool("ByteBufferBuilder");
     private static final Logger LOGGER = LogUtils.getLogger();
     private static final MemoryAllocator ALLOCATOR = MemoryUtil.getAllocator(false);
     private static final int MAX_GROWTH_SIZE = 2097152;
@@ -28,7 +28,6 @@ public class ByteBufferBuilder implements AutoCloseable {
     public ByteBufferBuilder(int p_344576_) {
         this.capacity = p_344576_;
         this.pointer = ALLOCATOR.malloc((long)p_344576_);
-        MEMORY_POOL.malloc(this.pointer, p_344576_);
         if (this.pointer == 0L) {
             throw new OutOfMemoryError("Failed to allocate " + p_344576_ + " bytes");
         }
@@ -51,9 +50,7 @@ public class ByteBufferBuilder implements AutoCloseable {
     }
 
     private void resize(int p_344270_) {
-        MEMORY_POOL.free(this.pointer);
         this.pointer = ALLOCATOR.realloc(this.pointer, (long)p_344270_);
-        MEMORY_POOL.malloc(this.pointer, p_344270_);
         LOGGER.debug("Needed to grow BufferBuilder buffer: Old size {} bytes, new size {} bytes.", this.capacity, p_344270_);
         if (this.pointer == 0L) {
             throw new OutOfMemoryError("Failed to resize buffer from " + this.capacity + " bytes to " + p_344270_ + " bytes");
@@ -116,7 +113,6 @@ public class ByteBufferBuilder implements AutoCloseable {
     @Override
     public void close() {
         if (this.pointer != 0L) {
-            MEMORY_POOL.free(this.pointer);
             ALLOCATOR.free(this.pointer);
             this.pointer = 0L;
             this.generation = -1;

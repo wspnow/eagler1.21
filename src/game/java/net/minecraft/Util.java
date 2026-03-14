@@ -11,8 +11,8 @@ import com.mojang.datafixers.Typed;
 import com.mojang.datafixers.DSL.TypeReference;
 import com.mojang.datafixers.types.Type;
 import com.mojang.datafixers.util.Pair;
-import com.mojang.jtracy.TracyClient;
-import com.mojang.jtracy.Zone;
+//import com.mojang.jtracy.TracyClient;
+//import com.mojang.jtracy.Zone;
 import com.mojang.logging.LogUtils;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.Dynamic;
@@ -161,7 +161,7 @@ public class Util {
                 ForkJoinWorkerThread forkjoinworkerthread = new ForkJoinWorkerThread(p_357604_) {
                     @Override
                     protected void onStart() {
-                        TracyClient.setThreadName(s, p_137478_.hashCode());
+                        //TracyClient.setThreadName(s, p_137478_.hashCode());
                         super.onStart();
                     }
 
@@ -228,7 +228,7 @@ public class Util {
         return new TracingExecutor(Executors.newCachedThreadPool(p_357582_ -> {
             Thread thread = new Thread(p_357582_);
             String s = p_309722_ + atomicinteger.getAndIncrement();
-            TracyClient.setThreadName(s, p_309722_.hashCode());
+            // Tracy tracing disabled for thread naming
             thread.setName(s);
             thread.setDaemon(p_310621_);
             thread.setUncaughtExceptionHandler(Util::onThreadException);
@@ -283,15 +283,13 @@ public class Util {
             String s = thread.getName();
             thread.setName(p_367193_);
 
-            try (Zone zone = TracyClient.beginZone(p_367193_, SharedConstants.IS_RUNNING_IN_IDE)) {
+            try {
                 p_369252_.run();
             } finally {
                 thread.setName(s);
             }
         } else {
-            try (Zone zone1 = TracyClient.beginZone(p_367193_, SharedConstants.IS_RUNNING_IN_IDE)) {
-                p_369252_.run();
-            }
+            p_369252_.run();
         }
     }
 

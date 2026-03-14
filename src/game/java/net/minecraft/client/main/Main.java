@@ -10,7 +10,7 @@ import com.mojang.blaze3d.TracyBootstrap;
 import com.mojang.blaze3d.platform.DisplayData;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferUploader;
-import com.mojang.jtracy.TracyClient;
+//import com.mojang.jtracy.TracyClient;
 import com.mojang.logging.LogUtils;
 import com.mojang.util.UndashedUuid;
 import java.io.File;
@@ -116,7 +116,7 @@ public class Main {
             GameLoadTimesEvent.INSTANCE.beginStep(TelemetryProperty.LOAD_TIME_TOTAL_TIME_MS, stopwatch);
             GameLoadTimesEvent.INSTANCE.beginStep(TelemetryProperty.LOAD_TIME_PRE_WINDOW_MS, stopwatch1);
             SharedConstants.tryDetectVersion();
-            TracyClient.reportAppInfo("Minecraft Java Edition " + SharedConstants.getCurrentVersion().getName());
+            // Tracy tracing disabled
             CompletableFuture<?> completablefuture = DataFixers.optimize(DataFixTypes.TYPES_FOR_LEVEL_LIST);
             CrashReport.preload();
             logger = LogUtils.getLogger();

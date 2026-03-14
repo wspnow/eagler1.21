@@ -3,8 +3,8 @@ package com.mojang.blaze3d.platform;
 import com.google.common.base.Charsets;
 import com.mojang.blaze3d.DontObfuscate;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.jtracy.Plot;
-import com.mojang.jtracy.TracyClient;
+//import com.mojang.jtracy.Plot;
+//import com.mojang.jtracy.TracyClient;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
@@ -33,9 +33,9 @@ import org.lwjgl.system.MemoryUtil;
 @DontObfuscate
 public class GlStateManager {
     private static final boolean ON_LINUX = Util.getPlatform() == Util.OS.LINUX;
-    private static final Plot PLOT_TEXTURES = TracyClient.createPlot("GPU Textures");
+    //private static final Plot PLOT_TEXTURES = TracyClient.createPlot("GPU Textures");
     private static int numTextures = 0;
-    private static final Plot PLOT_BUFFERS = TracyClient.createPlot("GPU Buffers");
+    //private static final Plot PLOT_BUFFERS = TracyClient.createPlot("GPU Buffers");
     private static int numBuffers = 0;
     public static final int TEXTURE_COUNT = 12;
     private static final GlStateManager.BlendState BLEND = new GlStateManager.BlendState();

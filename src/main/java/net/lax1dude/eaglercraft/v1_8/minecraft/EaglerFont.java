@@ -21,6 +21,7 @@ import net.lax1dude.eaglercraft.v1_8.opengl.EaglercraftGPU;
 import net.lax1dude.eaglercraft.v1_8.opengl.InstancedFont;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import com.mojang.blaze3d.vertex.ByteBufferBuilder;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -59,64 +60,73 @@ public class EaglerFont extends Font {
         this.fontRenderer = new InstancedFont();
     }
 
-    @Override
     public int draw(PoseStack poseStack, String text, float x, float y, int color) {
         if (text == null || text.isEmpty()) {
             this.posX = x;
             this.posY = y;
             return 0;
         }
-
-        // Handle formatting codes and render the text
         Style style = Style.EMPTY;
         if (bold) style = style.withBold(true);
         if (italic) style = style.withItalic(true);
         if (strikethrough) style = style.withStrikethrough(true);
         if (underline) style = style.withUnderlined(true);
-
-        // Apply obfuscation if needed
         if (obfuscated) {
             text = obfuscateText(text);
         }
-
-        // Create a component with the current style
         Component component = Component.literal(text).withStyle(style);
-
-        // Render the text
-        return super.renderString(component.getVisualOrderText(), x, y, color, false, poseStack, MultiBufferSource.immediate(com.mojang.blaze3d.vertex.Tesselator.getInstance().getBuilder()), false, 0, 15728880);
+        return super.drawInBatch(
+            component,
+            x,
+            y,
+            color,
+            false,
+            poseStack.last().pose(),
+            MultiBufferSource.immediate(new ByteBufferBuilder(786432)),
+            Font.DisplayMode.NORMAL,
+            15728880,
+            0,
+            true
+        );
     }
 
-    @Override
-    protected int renderString(String text, float x, float y, int color, boolean dropShadow, PoseStack poseStack, MultiBufferSource buffer, boolean transparent, int packedLight, int packedOverlay) {
+    public int renderString(String text, float x, float y, int color, boolean dropShadow, PoseStack poseStack, MultiBufferSource buffer, boolean transparent, int packedLight, int packedOverlay) {
         if (text == null || text.isEmpty()) {
             return 0;
         }
-
-        // Handle formatting codes and render the text
         Style style = Style.EMPTY;
         if (bold) style = style.withBold(true);
         if (italic) style = style.withItalic(true);
         if (strikethrough) style = style.withStrikethrough(true);
         if (underline) style = style.withUnderlined(true);
-
-        // Apply obfuscation if needed
         if (obfuscated) {
             text = obfuscateText(text);
         }
-
-        // Create a component with the current style
         Component component = Component.literal(text).withStyle(style);
-
-        // Render the text
-        return super.renderString(component.getVisualOrderText(), x, y, color, dropShadow, poseStack, buffer, transparent, packedLight, packedOverlay);
+        return super.drawInBatch(
+            component,
+            x,
+            y,
+            color,
+            dropShadow,
+            poseStack.last().pose(),
+            buffer,
+            Font.DisplayMode.NORMAL,
+            packedLight,
+            packedOverlay,
+            true
+        );
     }
 
-    @Override
     public int width(String text) {
         if (text == null) {
             return 0;
         }
-        return fontRenderer.getStringWidth(text);
+        return super.width(text);
+    }
+
+    public int getStringWidth(String text) {
+        return this.width(text);
     }
 
     // Helper method to get color from format code
