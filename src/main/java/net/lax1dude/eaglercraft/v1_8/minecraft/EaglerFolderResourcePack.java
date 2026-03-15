@@ -508,4 +508,19 @@ public class EaglerFolderResourcePack extends AbstractPackResources {
 		}
 	}
 
+	@Override
+	public void close() {
+		// Close all cached resources
+		for (InputStream is : resources.values()) {
+			try {
+				if (is != null) {
+					is.close();
+				}
+			} catch (Exception e) {
+				// Ignore
+			}
+		}
+		resources.clear();
+	}
+
 }

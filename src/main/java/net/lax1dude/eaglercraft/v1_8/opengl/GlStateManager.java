@@ -85,6 +85,9 @@ public class GlStateManager {
 	static float stateLightingAmbientB = 0.0f;
 	static int stateLightingAmbientSerial = 0;
 	
+	public static final Object PLOT_TEXTURES = null;
+	public static final Object PLOT_BUFFERS = null;
+	
 	static float stateNormalX = 0.0f;
 	static float stateNormalY = 0.0f;
 	static float stateNormalZ = -1.0f;

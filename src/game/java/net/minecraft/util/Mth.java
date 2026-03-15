@@ -419,6 +419,26 @@ public class Mth {
         return org.joml.Math.invsqrt(p_265088_);
     }
 
+    public static float sqrt_float(float value) {
+        return sqrt(value);
+    }
+
+    public static int ceiling_float_int(float value) {
+        return ceil(value);
+    }
+
+    public static int floor_float(float value) {
+        return floor(value);
+    }
+
+    public static int floor_double(double value) {
+        return floor(value);
+    }
+
+    public static double calculateLogBaseTwo(int value) {
+        return Math.log(value) / Math.log(2.0);
+    }
+
     @Deprecated
     public static double fastInvSqrt(double p_14194_) {
         double d0 = 0.5 * p_14194_;

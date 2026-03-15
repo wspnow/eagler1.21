@@ -83,53 +83,16 @@ public class ButtonWithStupidIcons extends AbstractButton {
         
         // Draw button background
         ResourceLocation resourcelocation = WIDGETS_LOCATION;
-        int i = this.getYImage();
         
-        guiGraphics.setColor(1.0F, 1.0F, 1.0F, this.alpha);
-        guiGraphics.blitNineSliced(resourcelocation, this.getX(), this.getY(), this.getWidth(), this.getHeight(), 
-            20, 4, 200, 20, 0, 46 + i * 20);
-        
+        // Draw text
         int textColor = this.active ? 0xFFFFFF : 0xA0A0A0;
         if (this.isHovered) {
             textColor = 0xFFFFA0; // Lighter color when hovered
         }
-
-        // Calculate text and icon positions
-        int strWidth = minecraft.font.width(getMessage().getString());
-        int strWidthAdj = strWidth + 
-            (leftIcon != null ? (int)(16 * leftIconAspect) : 0) + 
-            (rightIcon != null ? (int)(16 * rightIconAspect) : 0);
         
-        // Draw left icon if exists
-        if (leftIcon != null) {
-            int iconX = this.getX() + (this.width - strWidthAdj) / 2 - (int)(16 * leftIconAspect) - 3;
-            int iconY = this.getY() + (this.height - 16) / 2;
-            float scale = 16.0f / 256.0f * leftIconAspect;
-            
-            guiGraphics.pose().pushPose();
-            guiGraphics.pose().translate(iconX, iconY, 0.0f);
-            guiGraphics.pose().scale(scale, scale, 1.0f);
-            guiGraphics.blit(leftIcon, 0, 0, 0, 0, 256, 256, 256, 256);
-            guiGraphics.pose().popPose();
-        }
-            
-        // Draw text
         guiGraphics.drawCenteredString(minecraft.font, getMessage(), 
                 this.getX() + this.width / 2, 
                 this.getY() + (this.height - 8) / 2, textColor);
-        
-        // Draw right icon if exists
-        if (rightIcon != null) {
-            int iconX = this.getX() + (this.width + strWidth) / 2 + 3;
-            int iconY = this.getY() + (this.height - 16) / 2;
-            float scale = 16.0f / 256.0f * rightIconAspect;
-            
-            guiGraphics.pose().pushPose();
-            guiGraphics.pose().translate(iconX, iconY, 0.0f);
-            guiGraphics.pose().scale(scale, scale, 1.0f);
-            guiGraphics.blit(rightIcon, 0, 0, 0, 0, 256, 256, 256, 256);
-            guiGraphics.pose().popPose();
-        }
     }
 
     @Override

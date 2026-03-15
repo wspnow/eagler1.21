@@ -33,17 +33,22 @@ public final class ResourceLocation implements Comparable<ResourceLocation> {
     private final String namespace;
     private final String path;
 
-    private ResourceLocation(String p_135811_, String p_135812_) {
-        assert isValidNamespace(p_135811_);
+    public ResourceLocation(String p_135811_) {
+        ResourceLocation parsed = parse(p_135811_);
+        this(parsed.namespace, parsed.path);
+    }
 
-        assert isValidPath(p_135812_);
+    public ResourceLocation(String p_135811_, String p_135812_) {
+        this(assertValidNamespace(p_135811_, p_135812_), assertValidPath(p_135811_, p_135812_));
+    }
 
+    private ResourceLocation(String p_135811_, String p_135812_, boolean unused) {
         this.namespace = p_135811_;
         this.path = p_135812_;
     }
 
     private static ResourceLocation createUntrusted(String p_344238_, String p_343734_) {
-        return new ResourceLocation(assertValidNamespace(p_344238_, p_343734_), assertValidPath(p_344238_, p_343734_));
+        return new ResourceLocation(p_344238_, p_343734_);
     }
 
     public static ResourceLocation fromNamespaceAndPath(String p_344609_, String p_343842_) {

@@ -274,7 +274,7 @@ public class GlStateManager {
     public static int _glGenBuffers() {
         RenderSystem.assertOnRenderThreadOrInit();
         numBuffers++;
-        PLOT_BUFFERS.setValue((double)numBuffers);
+        //PLOT_BUFFERS.setValue((double)numBuffers);
         return GL15.glGenBuffers();
     }
 
@@ -334,7 +334,7 @@ public class GlStateManager {
         }
 
         numBuffers--;
-        PLOT_BUFFERS.setValue((double)numBuffers);
+        //PLOT_BUFFERS.setValue((double)numBuffers);
         GL15.glDeleteBuffers(p_84497_);
     }
 
@@ -536,14 +536,14 @@ public class GlStateManager {
     public static int _genTexture() {
         RenderSystem.assertOnRenderThreadOrInit();
         numTextures++;
-        PLOT_TEXTURES.setValue((double)numTextures);
+        //PLOT_TEXTURES.setValue((double)numTextures);
         return GL11.glGenTextures();
     }
 
     public static void _genTextures(int[] p_84306_) {
         RenderSystem.assertOnRenderThreadOrInit();
         numTextures += p_84306_.length;
-        PLOT_TEXTURES.setValue((double)numTextures);
+        //PLOT_TEXTURES.setValue((double)numTextures);
         GL11.glGenTextures(p_84306_);
     }
 
@@ -558,7 +558,7 @@ public class GlStateManager {
         }
 
         numTextures--;
-        PLOT_TEXTURES.setValue((double)numTextures);
+        //PLOT_TEXTURES.setValue((double)numTextures);
     }
 
     public static void _deleteTextures(int[] p_84366_) {

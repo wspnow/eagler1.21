@@ -304,7 +304,8 @@ public class EaglerTextureAtlasSprite {
 			}
 
 			// Create animation metadata with default values
-			this.animationMetadata = new AnimationMetadataSection(Optional.of(frames), Optional.of(this.width), Optional.of(this.height), 1, false);
+			AnimationMetadataSection metaSection = new AnimationMetadataSection(Optional.of(frames), Optional.of(this.width), Optional.of(this.height), 1, false);
+			this.animationMetadata = new AnimationMetadataSectionWrapper(metaSection);
 		}
 
 	}
@@ -336,7 +337,7 @@ public class EaglerTextureAtlasSprite {
 							return stringbuilder.toString();
 						}
 					});
-					throw new RuntimeException(crashreport.getFriendlyReport());
+					throw new RuntimeException(crashreport.getFriendlyReport(net.minecraft.CrashReport.ReportType.GENERIC, java.util.Collections.emptyList()));
 				}
 			}
 		}

@@ -82,7 +82,8 @@ public class EaglercraftGPU {
 
 	};
 
-	static final GLObjectMap<ITextureGL> mapTexturesGL = new GLObjectMap<>(8192);
+	public static final int GL_COMPILE = 4864;
+	public static final GLObjectMap<ITextureGL> mapTexturesGL = new GLObjectMap<>(8192);
 	static final GLObjectMap<IQueryGL> mapQueriesGL = new GLObjectMap<>(8192);
 	static final GLObjectMap<DisplayList> mapDisplayListsGL = new GLObjectMap<>(8192);
 

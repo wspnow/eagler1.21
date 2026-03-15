@@ -61,7 +61,7 @@ public class LevelRenderer {
 	public RenderEnv renderEnv = null;
 
 	public LevelRenderer(int bufferSizeIn) {
-		this.byteBuffer = net.lax1dude.eaglercraft.v1_8.internal.buffer.ByteBuffer.allocateDirect(bufferSizeIn << 2).order(ByteOrder.nativeOrder());
+		this.byteBuffer = EagRuntime.allocateByteBuffer(bufferSizeIn << 2).order(ByteOrder.nativeOrder());
 		this.intBuffer = this.byteBuffer.asIntBuffer();
 		this.floatBuffer = this.byteBuffer.asFloatBuffer();
 	}
@@ -84,7 +84,7 @@ public class LevelRenderer {
 			int k = (((pos + parInt1 + (parInt1 >> 1)) >> 16) + 1) << 16;
 			logger.warn("Needed to grow BufferBuilder buffer: Old size " + (i << 2) +
 					" bytes, new size " + (k << 2) + " bytes.");
-			net.lax1dude.eaglercraft.v1_8.internal.buffer.ByteBuffer bytebuffer = net.lax1dude.eaglercraft.v1_8.internal.buffer.ByteBuffer.allocateDirect(k << 2).order(ByteOrder.nativeOrder());
+			net.lax1dude.eaglercraft.v1_8.internal.buffer.ByteBuffer bytebuffer = EagRuntime.allocateByteBuffer(k << 2).order(ByteOrder.nativeOrder());
 			this.byteBuffer.position(0);
 			bytebuffer.put(this.byteBuffer);
 			bytebuffer.rewind();
